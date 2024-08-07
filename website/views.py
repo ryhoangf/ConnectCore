@@ -7,11 +7,6 @@ import random
 
 views = Blueprint('views', __name__)
 
-def create_app():
-    app = Flask(__name__)
-    app.register_blueprint(views)
-    return app
-
 @views.route('/')
 def home():
     return render_template('base.html')
