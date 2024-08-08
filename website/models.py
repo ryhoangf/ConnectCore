@@ -17,6 +17,14 @@ class User(db.Model):
     dob = db.Column(db.Date)
     password = db.Column(db.String(255), nullable=False)
 
+    def get_id(self):
+        return str(self.user_id)
+
+    @property
+    def is_active(self):
+        return True
+
+        
 class Message(db.Model):
     __tablename__ = 'message'
     message_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
