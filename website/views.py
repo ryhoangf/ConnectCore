@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, flash, render_template, request, redirect, url_for
-from .models import Team, User, UserBadges, UserTeams, Message, Task, TeamTask, PersonalTask, Badges
+from .models import Team, User, UserTeams, Message, Script
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db
