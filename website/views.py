@@ -29,7 +29,7 @@ def authentication():
             if user and check_password_hash(user.password, password):
                 login_user(user)
                 flash('Login successful!', 'success')
-                return render_template ('team_select.html')
+                return redirect(url_for('views.team_select'))
             else:
                 flash('Invalid username or password.', 'danger')
                 return redirect(url_for('views.authentication'))
@@ -52,19 +52,39 @@ def authentication():
 @views.route('/team_select', methods=['GET','POST'])
 @login_required
 def team_select():
-    room_code = request.form.get('room_code')
-    team  = Team.query.filter_by(team_code=room_code).first()
+    if request.method=='POST':
+        room_code = request.form.get('room_code')
+        team  = Team.query.filter_by(team_code=room_code).first()
 
-    if team:
-        user_id = current_user.user_id
-        new_user_team = UserTeams(team_id = team.team_id, user_id=user_id)
-        db.session.add(new_user_team)
-        db.session.commit()
-        return redirect(url_for('views.workspace', team_id=team.team_id))
+        joined_team = UserTeams.query.filter_by(user_id=current_user.user_id).all()
+        team_ids = [ut.team_id for ut in joined_team]
+        if team_ids:
+            team_list = Team.query.filter(Team.team_id.in_(team_ids)).all()
+        else:
+            team_list = []
+
+        if team:
+            user_id = current_user.user_id
+            existing_user_team = UserTeams.query.filter_by(team_id=team.team_id, user_id=user_id).first()
+            if existing_user_team:
+                return redirect(url_for('views.workspace', team_id=team.team_id))
+            else:
+                new_user_team = UserTeams(team_id = team.team_id, user_id=user_id)
+                db.session.add(new_user_team)
+                db.session.commit()
+                return redirect(url_for('views.workspace', team_id=team.team_id))
+        else:
+            flash('Invalid team code.', 'danger')
+            return render_template('team_select.html', team_list=team_list)
+
+    joined_team = UserTeams.query.filter_by(user_id=current_user.user_id).all()
+    team_ids = [ut.team_id for ut in joined_team]
+    if team_ids:
+        team_list = Team.query.filter(Team.team_id.in_(team_ids)).all()
     else:
-        flash('Invalid team code.', 'danger')
-        return render_template('team_select.html')
-    return render_template('team_select.html')
+        team_list = []
+
+    return render_template('team_select.html', team_list=team_list)
 
 @views.route('/workspace/<int:team_id>', methods=['GET', 'POST'])
 @login_required
@@ -76,11 +96,13 @@ def workspace(team_id):
     if request.method == 'POST':
         message_content = request.form.get('message_content')
         if message_content:
-            new_message = Message(content=message_content, user_team_id=user_teams.user_team_id, user_id=current_user.user_id)
-            db.session.add(new_message)
-            db.session.commit()
+            user_team = UserTeams.query.filter_by(team_id=team_id, user_id=current_user.user_id).first()
+            if user_team:
+                new_message = Message(content=message_content, user_team_id=user_team.user_team_id)
+                db.session.add(new_message)
+                db.session.commit()
         return redirect(url_for('views.workspace', team_id=team_id))
-    return render_template('workspace.html', team_name=team.team_name,team_code = team.team_code, team_id=team_id, messages=msgs)
+    return render_template('workspace.html', team_name=team.team_name,team_code = team.team_code, team_id=team_id, user=current_user, messages=msgs)
 
 @views.route('/team_create', methods=['GET','POST'])
 @login_required
@@ -92,16 +114,10 @@ def team_create():
             new_team_chat = Team(team_name=team_name,team_code =team_code)
             db.session.add(new_team_chat)
             db.session.commit()
+            new_user_team = UserTeams(team_id= new_team_chat.team_id, user_id=current_user.user_id)
+            db.session.add(new_user_team)
+            db.session.commit()
             return redirect(url_for('views.workspace', team_id=new_team_chat.team_id))
         else:
-            return render_template('team_create.html')
+            return redirect(url_for('views.team_select' ))
     return render_template('team_create.html')
-
-def send_message(team_id):
-    if request.method == 'POST':
-        message_content = request.form.get('message_content')
-        if message_content:
-            new_message = Message(content=message_content, team_id=team_id, user_id=current_user.id)
-            db.session.add(new_message)
-            db.session.commit()
-    return redirect(url_for('views.workspace', team_id=team_id))
