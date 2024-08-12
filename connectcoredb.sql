@@ -20,6 +20,7 @@ CREATE TABLE user (
 CREATE TABLE message (
     message_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	user_team_id INT NOT NULL,
+    created_at TIMESTAMP,
     content TEXT NOT NULL
 );
 
