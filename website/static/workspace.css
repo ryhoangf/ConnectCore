@@ -1,0 +1,35 @@
+body {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+.section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+.voice-chat {
+    background-color: #f8f9fa;
+    border-right: 1px solid #ddd;
+}
+
+.chat {
+    background-color: #ffffff;
+    border-right: 1px solid #ddd;
+}
+
+.script {
+    background-color: #f1f1f1;
+}
+
+.section h2 {
+    margin: 0 0 10px;
+    font-size: 24px;
+}

@@ -6,6 +6,7 @@ class Team(db.Model):
     team_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     team_name = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
+    team_code = db.Column(db.String(255), nullable=False)
 
 class User(db.Model):
     __tablename__ = 'user'
@@ -23,8 +24,11 @@ class User(db.Model):
     @property
     def is_active(self):
         return True
-
-        
+    
+    @property
+    def is_authenticated(self):
+        return True
+ 
 class Message(db.Model):
     __tablename__ = 'message'
     message_id = db.Column(db.Integer, primary_key=True, autoincrement=True)

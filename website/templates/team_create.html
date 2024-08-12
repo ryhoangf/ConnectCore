@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Team</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='team_select.css') }}">
+</head>
+<body>
+    <div class="team-create-container">
+        <h2>Create a New Team</h2>
+        <form method="POST">
+            <input type="text" name="name" placeholder="Enter team name" required>
+            <button type="submit">Create Team</button>
+        </form>
+    </div>
+</body>
+</html>
