@@ -30,6 +30,7 @@ class Message(db.Model):
     message_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_team_id = db.Column(db.Integer, db.ForeignKey('userteams.user_team_id'), nullable=False)
     content = db.Column(db.Text, nullable=False)
+    created_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
 
 class Script(db.Model):
     __tablename__ = 'Script'
