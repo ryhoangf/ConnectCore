@@ -25,9 +25,9 @@ class User(db.Model):
     def is_active(self):
         return True
     
-    @property
-    def is_authenticated(self):
-        return True
+        @property
+        def is_authenticated(self):
+            return True
  
 class Message(db.Model):
     __tablename__ = 'message'
