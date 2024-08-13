@@ -9,7 +9,7 @@
 <body>
     <div class="team-create-container">
         <h2>Create a New Team</h2>
-        <form method="POST">
+        <form method="POST" action= "{{ url_for('views.team_create') }}">
             <input type="text" name="name" placeholder="Enter team name" required>
             <button type="submit">Create Team</button>
         </form>

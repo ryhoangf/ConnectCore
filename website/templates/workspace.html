@@ -7,27 +7,53 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='workspace.css') }}">
 </head>
 <body>
-
-    <!-- Voice Chat Section -->
-    <div class="section voice-chat">
-        <h2>Voice Chat</h2>
-        <!-- Nội dung voice chat sẽ được thêm vào đây -->
-        <p>Voice chat area...</p>
+    <div class="container">
+        <!-- Voice Chat Section -->
+        <div class="section voice-chat">
+            <h2>Voice Chat</h2>
+            <p>Voice chat area...</p>
+        </div>
+    
+        <!-- Chat Section -->
+        <div class="section chat">
+            <h2>Chat</h2>
+            <div id="chat-messages" class="chat-messages">
+                {% for message in messages %}
+                <div class="message">
+                    <div class="message-info">
+                        <span class="message-user">{{ message.user_team.user.username }}</span>
+                        <span class="message-timestamp">{{ message.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
+                    </div>
+                    <div class="message-content">
+                        <p>{{ message.content }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+    
+            <!-- Chat Reply Form -->
+            <div class="chat-reply">
+                <form id="messageForm">
+                    <textarea id="messageInput" name="message_content" placeholder="Type your message" required></textarea>
+                    <button type="submit">Send</button>
+                </form>
+            </div>
+        </div>
+    
+        <!-- Script Section -->
+        <div class="section script">
+            <h2>Script</h2>
+            <p>Script area...</p>
+        </div>
     </div>
 
-    <!-- Chat Section -->
-    <div class="section chat">
-        <h2>Chat</h2>
-        <!-- Nội dung chat sẽ được thêm vào đây -->
-        <p>Chat area...</p>
-    </div>
-
-    <!-- Script Section -->
-    <div class="section script">
-        <h2>Script</h2>
-        <!-- Nội dung script sẽ được thêm vào đây -->
-        <p>Script area...</p>
-    </div>
-
+    <script>
+        const teamId = "{{ team_id }}";
+        window.onload = function() {
+            const chatMessages = document.getElementById('chat-messages');
+            chatMessages.scrollTop = chatMessages.scrollHeight; 
+        };
+    </script>
+    <script src="{{ url_for('static', filename='workspace.js') }}"></script>
 </body>
 </html>

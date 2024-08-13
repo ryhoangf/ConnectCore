@@ -36,6 +36,8 @@ class Message(db.Model):
     content = db.Column(db.Text, nullable=False)
     created_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
 
+    user_team = db.relationship('UserTeams', backref='messages')
+
 class Script(db.Model):
     __tablename__ = 'Script'
     script_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -49,3 +51,6 @@ class UserTeams(db.Model):
     team_id = db.Column(db.Integer, db.ForeignKey('team.team_id'), nullable=False)
     role = db.Column(db.String(255))
     joined_at = db.Column(db.TIMESTAMP, nullable=False, default=datetime.utcnow)
+
+    user = db.relationship('User', backref='user_teams')
+    team = db.relationship('Team', backref='user_teams')

@@ -9,11 +9,6 @@
 <body>
     <div class="team-select-container">
         <h2>Select Your Team</h2>
-        <ul>
-            {% for team in teams %}
-                <li>{{ team }}</li>
-            {% endfor %}
-        </ul>
         <div class="button-container">
             <form method="POST" action="{{ url_for('views.team_select') }}">
                 <input type="text" name="room_code" placeholder="Enter team code" required>
@@ -21,6 +16,16 @@
             </form>
             <button onclick="window.location.href='{{ url_for('views.team_create') }}'">Create Team</button>
         </div>
+
+        <ul>
+            {% for team in team_list %}
+            <li>
+                <a href="{{ url_for('views.workspace', team_id=team.team_id) }}">
+                        {{ team.team_name }} {{ team.team_code }}
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
