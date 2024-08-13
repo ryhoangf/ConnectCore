@@ -1,6 +1,3 @@
-/* workspace.css */
-
-/* General Styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -8,30 +5,40 @@ body {
     background-color: #f4f4f4;
 }
 
-/* Container for Sections */
 .container {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr; /* Creates three columns with different widths */
+    grid-template-columns: 1fr 1fr 1fr; 
     gap: 20px;
     padding: 20px;
+    height: 100vh;
 }
 
-/* Section Styles */
 .section {
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    box-sizing: border-box; /* Ensures padding is included in the element’s total width */
+    box-sizing: border-box;
+    overflow-y: auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
-/* Chat Section Styles */
+.voice-chat {
+    grid-column: 1 / 2; 
+}
+
 .chat {
     background-color: #e6e6e6;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    grid-column: 2 / 3; 
 }
 
 .chat-messages {
-    max-height: 300px;
+    flex: 1;
     overflow-y: auto;
     padding: 10px;
     border: 1px solid #ddd;
@@ -64,47 +71,55 @@ body {
     margin: 0;
 }
 
-/* Chat Reply Form Styles */
 .chat-reply {
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
     padding: 10px;
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 100%;
 }
 
 textarea {
-    width: 100%;
+    flex: 1;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
-    resize: vertical;
+    resize: vertical; 
+    box-sizing: border-box; 
+    min-width: 0; 
 }
 
 button {
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: #00ff95;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 16px;
+    min-width: 80px; 
 }
 
 button:hover {
     background-color: #0056b3;
 }
 
-/* Responsive Design */
+.script {
+    grid-column: 3 / 4; 
+}
+
 @media (max-width: 1024px) {
     .container {
-        grid-template-columns: 1fr 1fr; /* Two columns on medium screens */
-        gap: 10px;
+        grid-template-columns: 1fr 1fr;
     }
 }
 
 @media (max-width: 768px) {
     .container {
-        grid-template-columns: 1fr; /* Single column on smaller screens */
-        gap: 10px;
+        grid-template-columns: 1fr;
     }
 }
