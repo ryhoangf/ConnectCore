@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workspace</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='workspace.css') }}">
+    <!-- Emoji Mart Stylesheet -->
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
 </head>
 <body>
     <div class="container">
@@ -33,6 +35,8 @@
     
             <!-- Chat Reply Form -->
             <div class="chat-reply">
+                <button id="emoji-button">😀</button> <!-- Nút mở trình chọn emoji -->
+                <div id="emoji-container" class="emoji-container"></div> <!-- Container chứa emoji picker -->
                 <form id="messageForm">
                     <textarea id="messageInput" name="message_content" placeholder="Type your message" required></textarea>
                     <button type="submit">Send</button>
