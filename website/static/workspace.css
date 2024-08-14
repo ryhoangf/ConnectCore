@@ -25,7 +25,6 @@ body {
     flex-direction: column;
 }
 
-/* Emoji Button */
 #emojiButton {
     background: none;
     border: none;
@@ -39,17 +38,16 @@ body {
     color: #00ff95;
 }
 
-/* Emoji Container */
 .emoji-container {
     position: absolute;
-    bottom: 60px; /* Adjust as needed */
+    bottom: 60px; 
     left: 0;
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: none; /* Hidden by default */
-    max-height: 300px; /* Limit height */
+    display: none; 
+    max-height: 300px; 
     overflow-y: auto;
     z-index: 1000;
 }
@@ -86,11 +84,11 @@ body {
     border: 1px solid #ddd;
     border-radius: 8px;
     background-color: #fff;
-    margin-bottom: 10px; /* Add space below messages */
+    margin-bottom: 10px; 
 }
 
 .message {
-    margin-bottom: 15px; /* Increased margin for better spacing */
+    margin-bottom: 15px;
     padding: 12px;
     border-radius: 8px;
     border: 1px solid #ddd;
@@ -123,7 +121,7 @@ body {
     border-radius: 8px;
     padding: 10px;
     display: flex;
-    align-items: center; /* Align items center */
+    align-items: center; 
     gap: 10px;
     box-sizing: border-box;
     width: 100%;
@@ -139,7 +137,7 @@ textarea {
     resize: vertical;
     box-sizing: border-box;
     min-width: 0;
-    height: 60px; /* Set a fixed height for textarea */
+    height: 60px; 
 }
 
 button {
@@ -173,13 +171,40 @@ button:hover {
     }
 }
 .emoji-container {
-    display: none; /* Ẩn picker ban đầu */
+    display: none; 
     position: absolute;
     z-index: 1000;
-    bottom: 50px; /* Điều chỉnh vị trí của picker */
+    bottom: 50px; 
     right: 10px;
 }
 
 .emoji-container.show {
-    display: block; /* Hiển thị picker khi có class 'show' */
+    display: block; 
+}
+
+#translation-box {
+    display: none;
+    position: absolute;
+    background-color: #ffea71;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 1000;
+}
+
+#translation-box::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 100%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent #ff8080 transparent;
+}
+
+.translatable {
+    cursor: pointer;
+    display: inline-block;
 }

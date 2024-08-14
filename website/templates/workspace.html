@@ -21,21 +21,21 @@
             <h2>Chat</h2>
             <div id="chat-messages" class="chat-messages">
                 {% for message in messages %}
-                <div class="message">
+                <div class="message" data-message-id="{{ message.id }}">
                     <div class="message-info">
                         <span class="message-user">{{ message.user_team.user.username }}</span>
                         <span class="message-timestamp">{{ message.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</span>
                     </div>
                     <div class="message-content">
-                        <p>{{ message.content }}</p>
+                        <p class="translatable" data-text="{{ message.content }}">{{ message.content }}</p>
+                        <div id="translation-box"></div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-    
             <!-- Chat Reply Form -->
             <div class="chat-reply">
-                <button id="emoji-button">😀</button> <!-- Nút mở trình chọn emoji -->
+                <button id="emoji-button">😀</button> 
                 <div id="emoji-container" class="emoji-container"></div> <!-- Container chứa emoji picker -->
                 <form id="messageForm">
                     <textarea id="messageInput" name="message_content" placeholder="Type your message" required></textarea>

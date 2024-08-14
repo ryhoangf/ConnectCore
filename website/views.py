@@ -6,8 +6,10 @@ from werkzeug.routing import BaseConverter
 from . import db
 from datetime import datetime, timedelta
 import random, string
+import deepl
 
 views = Blueprint('views', __name__)
+translator = deepl.Translator("ENTER YOUR API KEY HERE")
 
 length = 10;
 def gen_team_code():
@@ -118,6 +120,19 @@ def workspace(team_id):
 
     return render_template('workspace.html', team_name=team.team_name,team_code = team.team_code,  team_id=team_id, messages=msgs)
 
+@views.route('/translate', methods=['POST'])
+def translate():
+    text = request.form['text']
+    target_lang = 'EN-US'
+
+    try:
+        result = translator.translate_text(text, target_lang=target_lang)
+        return jsonify({'translatedText': result.text})
+    except deepl.exceptions.AuthorizationException as e:
+        return jsonify({'error': 'Authorization failed: ' + str(e)})
+    except Exception as e:
+        return jsonify({'error': str(e)})
+    
 @views.route('/team_create', methods=['GET','POST'])
 @login_required
 def team_create():   

@@ -2,23 +2,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const emojiButton = document.getElementById('emoji-button');
     const messageInput = document.getElementById('messageInput');
     const emojiContainer = document.getElementById('emoji-container');
-    const teamId = "{{ team_id }}"; // Đảm bảo teamId đã được định nghĩa hoặc thay đổi giá trị nếu cần.
+    const teamId = "{{ team_id }}"; 
 
-    // Khởi tạo picker từ emoji-mart
     const picker = new EmojiMart.Picker({
         onEmojiSelect: (emoji) => {
-            messageInput.value += emoji.native; // Thêm emoji vào trường nhập liệu
+            messageInput.value += emoji.native; 
         },
-        theme: 'auto', // Tự động chọn theme sáng/tối
-        perLine: 9, // Số emoji trên mỗi dòng
-        previewPosition: 'bottom', // Vị trí của phần preview
-        navPosition: 'top', // Vị trí của thanh điều hướng
+        theme: 'auto',
+        perLine: 9, 
+        previewPosition: 'bottom',
+        navPosition: 'top', 
     });
 
-    // Thêm picker vào container
     emojiContainer.appendChild(picker);
 
-    // Hiển thị hoặc ẩn picker khi click vào nút emoji
     emojiButton.addEventListener('click', () => {
         if (emojiContainer.style.display === 'block') {
             emojiContainer.style.display = 'none';
@@ -27,7 +24,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Ẩn picker khi click ra ngoài
     document.addEventListener('click', (event) => {
         if (!emojiContainer.contains(event.target) && event.target !== emojiButton) {
             emojiContainer.style.display = 'none';
@@ -35,14 +31,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Xử lý form submit
 document.getElementById('messageForm').addEventListener('submit', function(event) {
     event.preventDefault(); 
 
     const messageInput = document.getElementById('messageInput');
     const messageContent = messageInput.value;
 
-    console.log('Submitting message:', messageContent); // Debug log
+    console.log('Submitting message:', messageContent); 
 
     fetch(`/workspace/${teamId}`, {
         method: 'POST',
@@ -54,11 +49,11 @@ document.getElementById('messageForm').addEventListener('submit', function(event
         })
     })
     .then(response => {
-        console.log('Response:', response); // Debug log
+        console.log('Response:', response);
         return response.json();
     })
     .then(data => {
-        console.log('Data:', data); // Debug log
+        console.log('Data:', data); 
         if (data.error) {
             console.error('Error:', data.error);
         } else {
@@ -72,7 +67,7 @@ document.getElementById('messageForm').addEventListener('submit', function(event
                     <span class="message-timestamp">${data.created_at}</span>
                 </div>
                 <div class="message-content">
-                    <p>${data.content}</p>
+                    <p class="translatable" data-text="${data.content}">${data.content}</p>
                 </div>
             `;
 
@@ -83,4 +78,45 @@ document.getElementById('messageForm').addEventListener('submit', function(event
         }
     })
     .catch(error => console.error('Error:', error));
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.translatable').forEach(element => {
+        const translationBox = element.nextElementSibling; 
+
+        element.addEventListener('mouseover', async () => {
+            const text = element.getAttribute('data-text');
+            const translatedText = await translateText(text);
+            translationBox.textContent = translatedText;
+            translationBox.style.display = 'block';
+        });
+
+        element.addEventListener('mouseout', () => {
+            translationBox.style.display = 'none';
+        });
+    });
+
+    async function translateText(text) {
+        try {
+            const response = await fetch('/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    text: text
+                })
+            });
+            const data = await response.json();
+            if (data.translatedText) {
+                return data.translatedText;
+            } else {
+                console.error('Translation error:', data.error);
+                return `Translation not available: ${data.error}`;
+            }
+        } catch (error) {
+            console.error('Error fetching translation:', error);
+            return 'Error occurred';
+        }
+    }
 });
