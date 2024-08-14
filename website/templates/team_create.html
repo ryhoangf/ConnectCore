@@ -4,15 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Team</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='team_select.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='team_create.css') }}">
 </head>
 <body>
-    <div class="team-create-container">
-        <h2>Create a New Team</h2>
-        <form method="POST" action= "{{ url_for('views.team_create') }}">
-            <input type="text" name="name" placeholder="Enter team name" required>
-            <button type="submit">Create Team</button>
-        </form>
+    <div class="container" id="container">
+        <div class="team-create-container">
+            <h2>Create a New Team</h2>
+            <form id="teamForm" method="POST">
+                <input type="text" name="name" id="teamName" placeholder="Enter team name" required>
+                <button type="submit">Create Team</button>
+                <p id="error-message" class="error"></p>
+            </form>
+            <button id="backButton" class="back-button">Back</button>
+        </div>
     </div>
+    <script src="{{ url_for('static', filename='team_create.js') }}"></script>
 </body>
 </html>
