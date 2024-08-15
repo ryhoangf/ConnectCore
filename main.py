@@ -1,6 +1,7 @@
 from website import create_app
 from flask_socketio import SocketIO, send
 
+
 app = create_app()
 socketio = SocketIO(app)
 

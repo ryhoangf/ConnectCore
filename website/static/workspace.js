@@ -80,6 +80,46 @@ document.getElementById('submitBtn').addEventListener('click', function(event) {
     .catch(error => console.error('Error:', error));
 });
 
+document.getElementById('submitSgst').addEventListener('click', function(event) {
+    event.preventDefault();
+    const messageInput = document.getElementById('messageInput');
+    const messageContent = messageInput.value.trim();
+    if (!messageContent) {
+        alert('Please enter a message before suggesting emojis.');
+        return;
+    }
+    console.log('Submitting message for emoji suggestion:', messageContent);
+    fetch('/suggest_emojis', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            'message_content': messageContent
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok: ' + response.statusText);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Emoji Suggestion Data:', data);
+        if (data.error) {
+            console.error('Error:', data.error);
+            alert('Error: ' + data.error);
+        } else {
+            // 絵文字の提案を表示する
+            displaySuggestedEmojis(suggested_emojis);
+        }
+    })
+    .catch(error => {
+        console.error('Fetch error:', error);
+        alert('An error occurred while suggesting emojis.' + error.message);
+    });
+});
+
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.translatable').forEach(element => {
         const translationBox = element.nextElementSibling; 
