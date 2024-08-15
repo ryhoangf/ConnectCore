@@ -8,10 +8,13 @@ from datetime import datetime, timedelta
 import random, string
 import deepl
 import google.generativeai as genai
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 views = Blueprint('views', __name__)
-translator = deepl.Translator("PLEASE ENTER YOUR API KEY")
-genai.configure(api_key='PLEASE ENTER YOUR API KEY')
+translator = deepl.Translator(os.environ["API_KEY1"])
+genai.configure(api_key=os.environ["API_KEY"])
 
 length = 10;
 def gen_team_code():
