@@ -9,7 +9,7 @@ import random, string
 import deepl
 
 views = Blueprint('views', __name__)
-translator = deepl.Translator("ENTER YOUR API KEY HERE")
+translator = deepl.Translator("d1f5bd59-c1ad-49a1-8c6a-462b257ab454:fx")
 
 length = 10;
 def gen_team_code():

@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-document.getElementById('messageForm').addEventListener('submit', function(event) {
+document.getElementById('submitBtn').addEventListener('click', function(event) {
     event.preventDefault(); 
 
     const messageInput = document.getElementById('messageInput');

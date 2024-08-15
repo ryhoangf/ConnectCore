@@ -14,6 +14,8 @@
         <div class="section voice-chat">
             <h2>Voice Chat</h2>
             <p>Voice chat area...</p>
+            <!-- Nút Settings -->
+            <button class="settings-button">Settings</button>
         </div>
     
         <!-- Chat Section -->
@@ -35,12 +37,12 @@
             </div>
             <!-- Chat Reply Form -->
             <div class="chat-reply">
-                <button id="emoji-button">😀</button> 
+                <button id="emoji-button">Emoji</button> 
                 <div id="emoji-container" class="emoji-container"></div> <!-- Container chứa emoji picker -->
                 <form id="messageForm">
                     <textarea id="messageInput" name="message_content" placeholder="Type your message" required></textarea>
-                    <button type="submit">Send</button>
                 </form>
+                <button id="submitBtn" type="button">Send</button> <!-- Cập nhật type thành button -->
             </div>
         </div>
     

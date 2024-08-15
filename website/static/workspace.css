@@ -185,7 +185,7 @@ button:hover {
 #translation-box {
     display: none;
     position: absolute;
-    background-color: #ffea71;
+    background-color: #fff2ab;
     border: 1px solid #ccc;
     padding: 8px;
     border-radius: 4px;
@@ -201,10 +201,26 @@ button:hover {
     margin-left: -5px;
     border-width: 5px;
     border-style: solid;
-    border-color: transparent transparent #ff8080 transparent;
+    border-color: transparent transparent #ffdddd transparent;
 }
 
 .translatable {
     cursor: pointer;
     display: inline-block;
+}
+
+.voice-chat .settings-button {
+    position: absolute;
+    bottom: 25px; /* Căn sát đáy */
+    left: 25px; /* Căn sát trái */
+    padding: 6px 10px; /* Kích thước nhỏ hơn */
+    background-color: #00ff95;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.voice-chat .settings-button:hover {
+    background-color: #0056b3;
 }
