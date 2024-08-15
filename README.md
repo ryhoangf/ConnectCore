@@ -5,6 +5,7 @@ pip install flask_socketio
 pip install pymysql
 npm install --save emoji-mart @emoji-mart/data @emoji-mart/react
 pip install deepl
+pip install google-generativeai
 ```
 
 Please contact me to get the API key
