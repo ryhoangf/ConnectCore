@@ -120,3 +120,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
+document.getElementById('suggestEmojisBtn').addEventListener('click', function() {
+    const message = document.getElementById('messageInput').value;
+
+    fetch('/suggest_emoji', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ text: message }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('emojiSuggestions').innerText = data.emojis;
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+});

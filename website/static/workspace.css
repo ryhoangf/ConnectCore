@@ -224,3 +224,11 @@ button:hover {
 .voice-chat .settings-button:hover {
     background-color: #0056b3;
 }
+
+.message-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 5px;
+}

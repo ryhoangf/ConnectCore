@@ -7,9 +7,11 @@ from . import db
 from datetime import datetime, timedelta
 import random, string
 import deepl
+import google.generativeai as genai
 
 views = Blueprint('views', __name__)
 translator = deepl.Translator("PLEASE ENTER YOUR API KEY")
+genai.configure(api_key='PLEASE ENTER YOUR API KEY')
 
 length = 10;
 def gen_team_code():
@@ -174,3 +176,20 @@ def settings():
         return redirect(url_for('views.settings'))
     
     return render_template('setting.html', user=user)
+
+@views.route('/suggest_emoji', methods=['POST'])
+def suggest_emoji():
+    data = request.json
+    input_text = data.get('text', '')
+
+    prompt = f"""
+    Provide a list of 5 emojis that best represent the sentiment or key concepts of the following text. 
+    Only return the emojis, without any additional text or explanation.
+
+    Text: "{input_text}"
+    """
+
+    model = genai.GenerativeModel('gemini-1.5-flash')
+    response = model.generate_content(prompt)
+    
+    return jsonify({'emojis': response.text.strip()})

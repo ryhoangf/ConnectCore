@@ -39,8 +39,10 @@
             <div class="chat-reply">
                 <button id="emoji-button">Emoji</button> 
                 <div id="emoji-container" class="emoji-container"></div> <!-- Container chứa emoji picker -->
-                <form id="messageForm">
+                <form id="messageForm" class="message-form">
+                    <div id="emojiSuggestions" class="emoji-suggestions"></div>
                     <textarea id="messageInput" name="message_content" placeholder="Type your message" required></textarea>
+                    <button id="suggestEmojisBtn" type="button">Suggest Emojis</button>
                 </form>
                 <button id="submitBtn" type="button">Send</button> <!-- Cập nhật type thành button -->
             </div>
