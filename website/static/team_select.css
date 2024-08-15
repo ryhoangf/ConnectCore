@@ -1,11 +1,10 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Montserrat', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
   margin: 0;
-  /* background-color: #f0f0f0;  This background-color was changed to line9*/
   background: linear-gradient(to right, #e2e2e2, #c9d6ff);
   flex-direction: column;
 }
@@ -66,7 +65,7 @@ body {
 }
 
 .button-container button:hover {
-  background-color: #137037;
+  background-color: #1fa77a;
 }
 
 .button-container form {

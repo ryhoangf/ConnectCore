@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -35,7 +35,7 @@ body {
 }
 
 #emojiButton:hover {
-    color: #00ff95;
+    color: #1fa77a;
 }
 
 .emoji-container {
@@ -142,7 +142,7 @@ textarea {
 
 button {
     padding: 10px 15px;
-    background-color: #00ff95;
+    background-color: #1fa77a;
     color: #fff;
     border: none;
     border-radius: 4px;
@@ -152,7 +152,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #4ca3ff;
 }
 
 .script {
@@ -185,7 +185,7 @@ button:hover {
 #translation-box {
     display: none;
     position: absolute;
-    background-color: #fff2ab;
+    background-color: #eeebdb;
     border: 1px solid #ccc;
     padding: 8px;
     border-radius: 4px;
@@ -209,19 +209,19 @@ button:hover {
     display: inline-block;
 }
 
-.voice-chat .settings-button {
+.voice-chat .profile-button {
     position: absolute;
-    bottom: 25px; /* Căn sát đáy */
-    left: 25px; /* Căn sát trái */
-    padding: 6px 10px; /* Kích thước nhỏ hơn */
-    background-color: #00ff95;
+    bottom: 25px; 
+    left: 25px; 
+    padding: 6px 10px; 
+    background-color: #1fa77a;
     color: #fff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-.voice-chat .settings-button:hover {
+.voice-chat .profile-button:hover {
     background-color: #0056b3;
 }
 

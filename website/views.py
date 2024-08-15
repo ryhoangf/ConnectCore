@@ -156,9 +156,9 @@ def team_create():
             return redirect(url_for('views.team_select' ))
     return render_template('team_create.html')
 
-@views.route('/settings', methods=['GET', 'POST'])
+@views.route('/profile', methods=['GET', 'POST'])
 @login_required
-def settings():
+def profile():
     user = current_user
     
     if request.method == 'POST':
@@ -176,9 +176,9 @@ def settings():
         if username:
             user.username = username
         db.session.commit()
-        return redirect(url_for('views.settings'))
+        return redirect(url_for('views.profile'))
     
-    return render_template('setting.html', user=user)
+    return render_template('profile.html', user=user)
 
 @views.route('/suggest_emoji', methods=['POST'])
 def suggest_emoji():

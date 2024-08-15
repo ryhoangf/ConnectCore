@@ -3,19 +3,19 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Settings</title>
+    <title>Profile</title>
     <meta name="description">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
     <!--==============レイアウトを制御する独自のCSSを読み込み===============-->
     <link rel="stylesheet" type="text/css" href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
     <link rel="stylesheet" type="text/css" href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/9-2-2/css/9-2-2.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='setting.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='profile.css') }}">
 </head>
 
 <body>
     <header class="header">
-        <p class="header_title">Settings</p>
+        <p class="header_title">Profile</p>
     </header>
     <ul class="accordion-area">
         <li>
@@ -27,7 +27,7 @@
                         <button class="username_button edit_button">Edit</button>
                     </div>
                     <div class="username_hidden hidden_section">
-                        <form method="post" action="{{ url_for('views.settings') }}">
+                        <form method="post" action="{{ url_for('views.profile') }}">
                             <input type="text" name="username" placeholder="Type your new username here" class="renewal_username_input" value="{{ user.username }}">
                             <button class="renewal_username_button">Enter</button>
                         </form>
@@ -44,7 +44,7 @@
                         <button class="username_button edit_button">Edit</button>
                     </div>
                     <div class="username_hidden hidden_section">
-                        <form method="post" action="{{ url_for('views.settings') }}">
+                        <form method="post" action="{{ url_for('views.profile') }}">
                             <input type="email" name="email" placeholder="Type your new email address here" class="renewal_username_input" value="{{ user.email }}">
                             <button class="renewal_username_button">Enter</button>
                         </form>
@@ -61,7 +61,7 @@
                         <button class="username_button edit_button">Edit</button>
                     </div>
                     <div class="username_hidden hidden_section">
-                        <form method="post" action="{{ url_for('views.settings') }}">
+                        <form method="post" action="{{ url_for('views.profile') }}">
                             <input type="text" name="name" placeholder="Type your new name here" class="renewal_username_input" value="{{ user.name }}">
                             <button class="renewal_username_button">Enter</button>
                         </form>
@@ -78,7 +78,7 @@
                         <button class="username_button edit_button">Edit</button>
                     </div>
                     <div class="username_hidden hidden_section">
-                        <form method="post" action="{{ url_for('views.settings') }}">
+                        <form method="post" action="{{ url_for('views.profile') }}">
                             <input type="date" name="dob" class="renewal_username_input" value="{{ user.dob.strftime('%Y-%m-%d') if user.dob else '' }}">
                             <button class="renewal_username_button">Enter</button>
                         </form>
@@ -94,7 +94,7 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-    <script src="{{ url_for('static', filename='setting.js') }}"></script>
+    <script src="{{ url_for('static', filename='profile.js') }}"></script>
 </body>
 
 </html>
