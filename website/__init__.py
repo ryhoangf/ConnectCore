@@ -9,7 +9,7 @@ login_manager = LoginManager()
 def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = 'idontknow'  
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:Giantslove1934@localhost/connectcore'
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:ryhoangf@localhost/connectcore'
     app.config['DEBUG'] = True
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 

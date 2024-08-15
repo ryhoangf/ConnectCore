@@ -1,0 +1,196 @@
+@charset "UTF-8";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+.accordion-area{
+    list-style: none;
+    width: 96%;
+    max-width: 900px;
+    margin:0 auto;
+}
+
+.accordion-area li{
+    margin: 10px 0;
+}
+
+.accordion-area section{
+    border: 1px solid #ccc;
+    /* レイアウト用のCSS */
+    border-radius: 30px;
+}
+
+/*アコーディオンタイトル*/
+.title {
+    position: relative;/*+マークの位置基準とするためrelative指定*/
+    cursor: pointer;
+    font-size:1rem;
+    font-weight: normal;
+    padding: 3% 3% 3% 50px;
+    transition: all .5s ease;
+    /* レイアウトのためのcss */
+    font-size: 30px;
+}
+
+/*アイコンの＋と×*/
+.title::before,
+.title::after{
+    position: absolute;
+    content:'';
+    width: 15px;
+    height: 2px;
+    background-color: #333;
+    
+}
+.title::before{
+    top:48%;
+    left: 15px;
+    transform: rotate(0deg);
+    
+}
+.title::after{    
+    top:48%;
+    left: 15px;
+    transform: rotate(90deg);
+
+}
+
+/*　closeというクラスがついたら形状変化　*/
+
+.title.close::before{
+    transform: rotate(45deg);
+}
+
+.title.close::after{
+    transform: rotate(-45deg);
+}
+
+/*アコーディオンで現れるエリア*/
+.box {
+    display: none;/*はじめは非表示*/
+    background: #f3f3f3;
+    margin:0 3% 3% 3%;
+    padding: 3%;
+    /* レイアウトのCSS */
+    border-radius: 10px;
+    position: relative;
+}
+
+
+/*========= レイアウトのためのCSS ===============*/
+
+h2{
+    text-align: center;
+    margin: 30px 0;
+    font-size:1rem;
+}
+
+.box_button
+{
+    display: flex;
+}
+
+/* ヘッダーここから */
+.header
+{
+    width: 100%;
+    height: 100px;
+    background-color: #1fa77a;
+    position: relative;
+}
+
+.header_title
+{
+    position: absolute;
+    top: 50%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    font-size: 40px;
+}
+
+/* username */
+.username
+{
+    font-size: 20px;
+}
+
+.username_button
+{
+    font-size: 20px;
+    background-color: #1fa77a;
+    width: 60px;
+    height: 40px;
+    border-radius: 7px;
+    position: absolute;
+    right: 100px;
+}
+
+.username_hidden
+{
+    display: none;    
+}
+
+.renewal_username_input
+{
+    font-size: 20px;
+    width: 500px;
+    margin-top: 20px;
+}
+
+.renewal_username_button
+{
+    font-size: 20px;
+    background-color: #1fa77a;
+    width: 60px;
+    height: 40px;
+    border-radius: 7px;
+}
+
+
+
+
+/* モーダルウィンドウの背景 */
+.modal {
+    display: none; /* 初期状態では非表示 */
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); /* 黒の透過 */
+}
+
+/* モーダルコンテンツ */
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px; /* 最大幅を設定 */
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* 閉じるボタン */
+.close_button {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    position: relative; /* 位置をrelativeに指定 */
+    top: 12px; /* 上下の位置を調整 */
+    transform: translateY(-50%); /* 垂直方向に中央寄せ */
+}
+
+.close_button:hover,
+.close_button:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

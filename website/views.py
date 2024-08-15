@@ -9,7 +9,7 @@ import random, string
 import deepl
 
 views = Blueprint('views', __name__)
-translator = deepl.Translator("d1f5bd59-c1ad-49a1-8c6a-462b257ab454:fx")
+translator = deepl.Translator("PLEASE ENTER YOUR API KEY")
 
 length = 10;
 def gen_team_code():
@@ -151,3 +151,26 @@ def team_create():
             return redirect(url_for('views.team_select' ))
     return render_template('team_create.html')
 
+@views.route('/settings', methods=['GET', 'POST'])
+@login_required
+def settings():
+    user = current_user
+    
+    if request.method == 'POST':
+        name = request.form.get('name')
+        dob = request.form.get('dob')
+        email = request.form.get('email')
+        username = request.form.get('username')
+        
+        if name:
+            user.name = name
+        if dob:
+            user.dob = datetime.strptime(dob, '%Y-%m-%d')
+        if email:
+            user.email = email
+        if username:
+            user.username = username
+        db.session.commit()
+        return redirect(url_for('views.settings'))
+    
+    return render_template('setting.html', user=user)
