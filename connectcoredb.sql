@@ -35,7 +35,8 @@ CREATE TABLE userteams (
 CREATE TABLE script (
     script_id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     user_team_id INT NOT NULL,
-    content TEXT
+    content TEXT,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 ALTER TABLE userteams 
 ADD CONSTRAINT FK_userteams_user FOREIGN KEY (user_id) REFERENCES user(user_id),
