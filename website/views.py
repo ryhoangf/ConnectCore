@@ -6,8 +6,9 @@ from werkzeug.routing import BaseConverter
 from . import db
 from datetime import datetime, timedelta
 import random, string
-import deepl
+import deepl, threading
 import google.generativeai as genai
+import speech_recognition as sr
 import os
 from dotenv import load_dotenv
 
@@ -15,11 +16,32 @@ load_dotenv()
 views = Blueprint('views', __name__)
 translator = deepl.Translator(os.environ["API_KEY1"])
 genai.configure(api_key=os.environ["API_KEY"])
+recognizer = sr.Recognizer()
+microphone = sr.Microphone()
+
+# Global variables to handle transcription state
+transcription_thread = None
+transcribing = False
+transcript_data = ""
 
 length = 10;
 def gen_team_code():
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
+
+def transcribe_audio():
+    global transcribing, transcript_data
+    with microphone as source:
+        while transcribing:
+            audio = recognizer.listen(source)
+            try:
+                transcript = recognizer.recognize_google(audio)
+                transcript_data += transcript + " "
+            except sr.UnknownValueError:
+                pass
+            except sr.RequestError as e:
+                print(f"Could not request results; {e}")
+
 
 @views.route('/')
 def home():
@@ -123,7 +145,7 @@ def workspace(team_id):
                 })
         return jsonify({'error': 'Message content missing'}), 400 
 
-    return render_template('workspace.html', team_name=team.team_name,team_code = team.team_code,  team_id=team_id, messages=msgs)
+    return render_template('workspace.html', team_name=team.team_name,team_code = team.team_code,user=current_user,  team_id=team_id, messages=msgs)
 
 @views.route('/translate', methods=['POST'])
 def translate():
@@ -196,3 +218,53 @@ def suggest_emoji():
     response = model.generate_content(prompt)
     
     return jsonify({'emojis': response.text.strip()})
+
+@views.route('/meeting/<int:team_id>', methods=['GET'])
+@login_required
+def meeting(team_id):
+    user_team = UserTeams.query.filter_by(user_id=current_user.user_id).first()
+    check_valid = UserTeams.query.filter_by(team_id=team_id, user_id=current_user.user_id).first()
+    user_teams = UserTeams.query.filter_by(team_id=team_id).all()
+    user_team_ids = [ut.user_team_id for ut in user_teams]  
+    msgs = Message.query.filter(Message.user_team_id.in_(user_team_ids)).order_by(Message.created_at.asc()).all()
+    if not check_valid:
+        abort(403)
+    if request.method == 'POST':
+
+        message_content = request.form.get('message_content')
+        if message_content:
+            user_team = UserTeams.query.filter_by(team_id=team_id, user_id=current_user.user_id).first()
+            if user_team:
+                new_message = Message(content=message_content, user_team_id=user_team.user_team_id)
+                db.session.add(new_message)
+                db.session.commit()
+                return jsonify({
+                    'username': current_user.username,
+                    'created_at': new_message.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                    'content': new_message.content
+                })
+        return jsonify({'error': 'Message content missing'}), 400 
+    return render_template('workspace.html', user = current_user,team_id=team_id, user_id=current_user.user_id,messages=msgs)
+
+@views.route('/start_transcription', methods=['POST'])
+@login_required
+def start_transcription():
+    global transcribing, transcription_thread
+    if not transcribing:
+        transcribing = True
+        transcription_thread = threading.Thread(target=transcribe_audio)
+        transcription_thread.start()
+        return jsonify({"status": "Transcription started"})
+    else:
+        return jsonify({"status": "Transcription already running"})
+
+@views.route('/stop_transcription', methods=['POST'])
+@login_required
+def stop_transcription():
+    global transcribing
+    if transcribing:
+        transcribing = False
+        transcription_thread.join()
+        return jsonify({"status": "Transcription stopped", "transcript": transcript_data})
+    else:
+        return jsonify({"status": "No transcription running"})

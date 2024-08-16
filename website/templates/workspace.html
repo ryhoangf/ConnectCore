@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Workspace</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='workspace.css') }}">
-    <!-- Emoji Mart Stylesheet -->
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
 </head>
 <body>
@@ -13,8 +12,8 @@
         <!-- Voice Chat Section -->
         <div class="section voice-chat">
             <h2>Voice Chat</h2>
-            <p>Voice chat area...</p>
-            <!-- Nút Profile -->
+            <button id="start-call">Start Call</button>
+            <div id="root"></div>
             <button class="profile-button" onclick="window.location.href='{{ url_for('views.profile') }}'">Profile</button>
         </div>
     
@@ -37,23 +36,25 @@
             </div>
             <!-- Chat Reply Form -->
             <div class="chat-reply">
-                <button id="emoji-button">Emoji</button> 
-                <div id="emoji-container" class="emoji-container"></div> <!-- Container chứa emoji picker -->
+                <button id="emoji-button">Emoji</button>
+                <div id="emoji-container" class="emoji-container"></div>
                 <form id="messageForm" class="message-form">
                     <div id="emojiSuggestions" class="emoji-suggestions"></div>
                     <textarea id="messageInput" name="message_content" placeholder="Type your message" required></textarea>
                     <button id="suggestEmojisBtn" type="button">Suggest Emojis</button>
                 </form>
-                <button id="submitBtn" type="button">Send</button> <!-- Cập nhật type thành button -->
+                <button id="submitBtn" type="button">Send</button>
             </div>
         </div>
     
         <!-- Script Section -->
         <div class="section script">
-            <h2>Script</h2>
-            <p>Script area...</p>
-        </div>
-    </div>
+                <h2>Script
+                    <button id="start-transcription">Start Transcription</button>
+                    <button id="stop-transcription">Stop Transcription</button>
+                </h2>
+            <div id="transcript" class="transcript">
+            </div>
 
     <script>
         const teamId = "{{ team_id }}";
@@ -61,7 +62,85 @@
             const chatMessages = document.getElementById('chat-messages');
             chatMessages.scrollTop = chatMessages.scrollHeight; 
         };
+
+        document.getElementById('start-call').onclick = function() {
+            window.location.href = "{{ url_for('views.meeting', team_id=team_id) }}";
+        };
+
+        document.getElementById('start-transcription').onclick = function() {
+            fetch('/start_transcription', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.status);
+                })
+                .catch(error => {
+                    console.error('Error starting transcription:', error);
+                });
+        };
+
+        document.getElementById('stop-transcription').onclick = function() {
+            fetch('/stop_transcription', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data.status);
+                    document.getElementById('transcript').textContent = data.transcript || 'No transcript available';
+                })
+                .catch(error => {
+                    console.error('Error stopping transcription:', error);
+                });
+        };
+    </script>
+    <script>
+        document.getElementById('start-call').onclick = function() {
+            window.location.href = "{{ url_for('views.meeting', team_id=team_id) }}";
+        };
     </script>
     <script src="{{ url_for('static', filename='workspace.js') }}"></script>
+    <script src="https://unpkg.com/@zegocloud/zego-uikit-prebuilt/zego-uikit-prebuilt.js"></script>
+    <script>
+        window.onload = function () {
+            function getUrlParams(url) {
+                let urlStr = url.split('?')[1];
+                const urlSearchParams = new URLSearchParams(urlStr);
+                const result = Object.fromEntries(urlSearchParams.entries());
+                return result;
+            }
+
+            const roomID = getUrlParams(window.location.href)['roomID'] || '{{team_id}}';
+            const userID = '{{user_id}}';
+            const userName = '{{user.username}}';
+            const appID = 564833401;
+            const serverSecret = "0187b6df85e6ee641aaa82de3a90be23";
+            const kitToken = ZegoUIKitPrebuilt.generateKitTokenForTest(appID, serverSecret, roomID, userID, userName);
+
+            const zp = ZegoUIKitPrebuilt.create(kitToken);
+            zp.joinRoom({
+                container: document.querySelector("#root"),
+                sharedLinks: [{
+                    name: 'Room sharedLinks',
+                    url: window.location.protocol + '//' + window.location.host + window.location.pathname + '?roomID=' + roomID,
+                }],
+                scenario: {
+                    mode: ZegoUIKitPrebuilt.VideoConference,
+                },
+                turnOnMicrophoneWhenJoining: true,
+                turnOnCameraWhenJoining: false,
+                showMyCameraToggleButton: false,
+                showMyMicrophoneToggleButton: true,
+                showAudioVideoSettingsButton: false,
+                showScreenSharingButton: false,
+                showTextChat: false,
+                showUserList: true,
+                maxUsers: 50,
+                layout: "Grid",
+                showLayoutButton: false,
+            });
+
+            document.getElementById('return-to-workspace').onclick = function() {
+                window.location.href = "{{ url_for('views.workspace', team_id=team_id) }}";
+            };
+        }
+
+    </script>
 </body>
 </html>
