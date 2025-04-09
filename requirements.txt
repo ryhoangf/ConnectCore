@@ -1,6 +1,6 @@
 flask_sqlalchemy
 flask_login
 flask_socketio
-pymysql
+psycopg2-binary
 deepl
 google-generativeai
