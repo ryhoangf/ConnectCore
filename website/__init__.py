@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_socketio import SocketIO, send
 import os
-from dotenv import load_dotenv
-load_dotenv()
 
 db = SQLAlchemy()
 login_manager = LoginManager()
